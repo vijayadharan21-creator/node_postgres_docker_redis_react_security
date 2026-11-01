@@ -1,20 +1,22 @@
-
 import {Pool} from 'pg';
-import {host,port,database,user,password} from '../config/env.config.js'
+import {host,port,database,user,password} from '../config/env.config.js';
 
-export const pool =new Pool({
-    host:host,
+export const pool = new Pool({
+    host: host,
     port: Number(port),
-    database:database,
+    database: database,
     user: user,
-    password:password,
-})
+    password: password,
+});
 
-export const initilization=async()=>{
-    try{
-        await pool.query("CREATE TABLE IF NOT EXISTS test(name text)")
-        await pool.query("insert into test(name)values($1)",["vijay"]);
-    }catch(e){
-        console.log(e.message);
+pool.on('error', (err) => {
+    console.error('Unexpected error on idle pg client:', err.message);
+});
+
+export const initilization = async () => {
+    try {
+        await pool.query("CREATE TABLE IF NOT EXISTS users(id serial primary key, email text unique not null, password text not null, refreshtoken text);");
+    } catch(e) {
+        console.log("Database initialization error:", e.message);
     }
-}
+};
