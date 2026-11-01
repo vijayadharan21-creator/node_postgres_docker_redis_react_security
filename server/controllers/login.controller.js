@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import AppError from "../utils/Apperror.js"
 import {refreshToken,accessToken} from '../services/token.js'
 import { refreshsecret } from '../config/env.config.js';
+import e from 'express';
 
 
 export const registerUser=async(req,res,next)=>{
@@ -100,8 +101,8 @@ export const loginUser =async(req,res,next)=>{
     }
 }
 
-// Generate new access token using refresh tokenexport
- const refreshAccessToken = async (req, res, next) => {
+// Generate new access token using refresh token
+export const refreshAccessToken = async (req, res, next) => {
     try {
         const token = req.cookies?.refreshToken;
         if (!token) {
